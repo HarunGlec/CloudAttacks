@@ -1,0 +1,4 @@
+0 0 * * * /usr/bin/python3 /home/ec2-user/aws_attack_simulator/attack.py -t all -e T1078 >> /home/ec2-user/aws_attack_simulator/attack_output.txt 2>&1
+0 1-6 * * * /usr/bin/python3 /home/ec2-user/aws_attack_simulator/attack.py -t all -e T1110 >> /home/ec2-user/aws_attack_simulator/attack_output.txt 2>&1
+0 7-23 * * * /usr/bin/python3 /home/ec2-user/aws_attack_simulator/attack.py -t all -e T1078 >> /home/ec2-user/aws_attack_simulator/attack_output.txt 2>&1
+30 * * * * /usr/bin/python3 /home/ec2-user/aws_attack_simulator/recovery.py >> /home/ec2-user/aws_attack_simulator/recovery_output.txt 2>&1

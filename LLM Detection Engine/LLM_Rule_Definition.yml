@@ -1,0 +1,38 @@
+Format:
+  - JSON
+Definitions:
+  - eventName:
+      description: "Explains name of activity and it is beneficial to understand purpose of activity"
+  - eventTime:
+      description: "Explains activity time. This is important parameter when detecting time based activity or sequential activity"
+  - requestParameters:
+      description: "Explains the objects of the activity. It can be used to understand attacked against which entity."
+  - responseElements:
+      description: "Explains the results of activity. If it has any positive statement like 'true', 'successful', activity succesfully completed. Otherwise, it is failed, not comploted."
+  - userIdentity:
+      description: "Explains who did the activity. 'type' subfield explains the user type and userName subfield explains the userName if exists."
+Detections:
+- InhibitSystemRecovery:
+  - If any volume and snapshot is deleted in 10 minutes
+  - Priority: 1
+- Destruction:
+  - If any snapshot is deleted
+  - If any instance is terminated
+  - if any image is deleted
+  - Priority: 2
+- IndicatorRemoval:
+  - If any task in poc cluster is stopped
+  - If log-poc-demo-bucket S3 bucket is deleted
+  - Priority: 2
+- CredentialsFromPasswordStores:
+  - If someone access to 'secretPassword' value stored in secrets manager. If responseElements is null, it is successful
+  - Priority: 2
+- BruteForce:
+  - If there are more than 10 failed login in 5 minutes
+  - Priority: 2
+- ValidAccounts:
+  - Usual working time is between 08:00 and 23:00. If any successful user login out of those hours, it can be considered as malicious
+  - Priority: 2
+FalsePositives:
+- User type 'Root' is allowed to delete snapshots.
+- secretPassword value can be assessible only by AWSService user

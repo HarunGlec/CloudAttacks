@@ -1,0 +1,25 @@
+Format:
+  - Space-seperated values
+  - type time elb client:port target:port request_processing_time target_processing_time response_processing_time elb_status_code target_status_code received_bytes sent_bytes request user_agent ssl_cipher ssl_protocol target_group_arn trace_id domain_name chosen_cert_arn matched_rule_priority request_creation_time actions_executed redirect_url error_reason target:port_list target_status_code_list classification classification_reason conn_trace_id 
+Definitions:
+  - time:
+      description: "Explains activity time. This is important parameter when detecting time based activity or sequential activity"
+  - client:port:
+      description: "Explains source IP address and port"
+  - target:port:
+      description: "Explains targeted application's IP address and port"
+  - target_status_code:
+      description: "Explains result of activity. If it is 200, operation is successful."
+  - request:
+      description: "Explains activity. Enclosed in double quotes and logged using the following format: HTTP method + protocol://host:port/uri + HTTP version."
+  - target_group_arn:
+      description: "Explains targeted application."
+Detections:
+- ExploitPublicFacingApplication:
+  - If any SQL statement exist in request
+  - If URI in request parameter contains login and SQL bypass logic like " ' OR '1' LIKE '1 "
+  - If request contains any form of "../"
+  - If request contains any OS command
+  - If request contains Javascript function
+FalsePositives:
+- If target_status_code is not 200, consider as false positive

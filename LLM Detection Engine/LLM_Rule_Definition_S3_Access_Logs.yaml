@@ -1,0 +1,23 @@
+Format:
+  - Space-seperated values
+  - BucketOwner Bucket Time RemoteIP Requester RequestID Operation Key Request-URI HTTPStatus ErrorCode BytesSent ObjectSize TotalTime Turn-AroundTime Referer User-Agent VersionId HostId SignatureVersion CipherSuite AuthenticationType HostHeader TLSVersion AccessPointARN aclRequired
+Definitions:
+  - Bucket:
+      description: "Explains name of affected bucket"
+  - Time:
+      description: "Explains activity time. This is important parameter when detecting time based activity or sequential activity"
+  - Operation:
+      description: "Explains the activity against bucket"
+  - Key:
+      description: "Explains the target object or file. If it is '-', then operation is not for a file, instead for bucket"
+  - Request-URI:
+      description: "If operation targets a bucket, this field can be used to explains the operation details like file listing"
+  - HTTPStatus:
+      description: "Explains result of activity. If it is 200, operation is successful."
+  - ErrorCode:
+     description: "Explains error if operation is failed"
+Detections:
+- DataEncryptedForImpact:
+  - If any bucket with data prefix get listed and then, files downloaded and uploaded with same filename in 5 minutes
+FalsePositives:
+- None
